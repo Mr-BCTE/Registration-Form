@@ -16,13 +16,20 @@
         color: #374151;
         margin-bottom: 0.5rem;
       }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* prevent unnecessary scroll */
+      }
     </style>
   </head>
+
   <body
-    class="flex items-center justify-center min-h-screen p-4 antialiased text-slate-800"
+    class="flex items-center justify-center h-screen antialiased text-slate-800"
   >
     <div
-      class="w-full max-w-3xl bg-white rounded-sm shadow-sm border border-slate-200 overflow-hidden"
+      class="w-full max-w-3xl bg-white rounded-sm shadow-sm border border-slate-200 overflow-hidden scale-[0.99] sm:scale-100 transition-transform"
     >
       <header
         class="px-8 md:px-10 py-10 md:py-12 border-b border-slate-100 bg-white"
@@ -39,7 +46,7 @@
 
       <form
         id="registrationForm"
-        class="px-8 md:px-10 py-10 md:py-12 space-y-8 md:space-y-10"
+        class="px-8 md:px-10 py-8 md:py-12 space-y-8 md:space-y-10"
       >
         <!-- Full Name -->
         <div>
