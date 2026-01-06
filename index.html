@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-color: #f3f4f9;
+      }
+      .form-label {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </head>
+  <body
+    class="flex items-center justify-center min-h-screen p-4 antialiased text-slate-800"
+  >
+    <div
+      class="w-full max-w-3xl bg-white rounded-sm shadow-sm border border-slate-200 overflow-hidden"
+    >
+      <header class="px-10 py-12 border-b border-slate-100 bg-white">
+        <h1 class="text-3xl font-bold text-slate-800 tracking-tight">
+          Registration Form
+        </h1>
+        <p class="text-slate-500 mt-2 text-sm">
+          Fill out the form carefully for registration
+        </p>
+      </header>
+
+      <form id="registrationForm" class="px-10 py-12 space-y-10">
+        <div>
+          <label class="form-label">Full Name</label>
+          <div class="grid grid-cols-1 gap-4">
+            <input
+              type="text"
+              name="name"
+              required
+              class="w-full border border-slate-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 transition-all"
+            />
+            <span class="text-[11px] text-slate-400 mt-1">Full Name</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label class="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              class="w-full border border-slate-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 transition-all"
+            />
+            <span class="text-[11px] text-slate-400 mt-1"
+              >example@example.com</span
+            >
+          </div>
+
+          <div>
+            <label class="form-label">Phone Number</label>
+            <div class="flex gap-2">
+              <input
+                type="text"
+                name="countryCode"
+                placeholder="+1"
+                required
+                class="w-20 border border-slate-300 rounded-md px-2 py-2.5 text-center focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 transition-all"
+              />
+              <input
+                type="tel"
+                name="phone"
+                required
+                class="w-full border border-slate-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 transition-all"
+              />
+            </div>
+            <span class="text-[11px] text-slate-400 mt-1"
+              >Area Code & Phone Number</span
+            >
+          </div>
+        </div>
+
+        <div class="pt-6">
+          <button
+            type="submit"
+            id="submitBtn"
+            class="bg-[#1e293b] hover:bg-slate-900 text-white px-10 py-3 rounded-md text-sm font-medium transition-all active:scale-[0.98]"
+          >
+            Submit Registration
+          </button>
+          <p
+            id="status"
+            class="mt-4 text-xs font-medium text-slate-500 h-4"
+          ></p>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // REPLACE THIS with your Google Apps Script Web App URL
+      const scriptURL = "YOUR_SCRIPT_URL_HERE";
+      const form = document.getElementById("registrationForm");
+      const btn = document.getElementById("submitBtn");
+      const status = document.getElementById("status");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+        status.innerText = "Submitting your details...";
+
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then((response) => {
+            btn.classList.replace("bg-gray-400", "bg-green-600");
+            btn.innerText = "Success!";
+            status.innerText = "Your details have been saved.";
+            form.reset();
+            setTimeout(() => {
+              btn.classList.replace("bg-green-600", "bg-gray-400");
+              btn.innerText = "Register Now";
+              btn.disabled = false;
+              status.innerText = "";
+            }, 3000);
+          })
+          .catch((error) => {
+            status.innerText = "Error: Check your script URL.";
+            btn.disabled = false;
+            btn.innerText = "Register Now";
+          });
+      });
+    </script>
+  </body>
+</html>
