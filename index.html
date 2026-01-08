@@ -118,35 +118,39 @@
     </div>
 
     <script>
-      // REPLACE THIS with your Google Apps Script Web App URL
-      const scriptURL = "https://script.google.com/macros/s/AKfycbwr_igzyO_VEVh_f3NuSxzWZ156gDKei3-2IdRR_G5F6M8y5zQRu8xScnRmJXJPeQ3eag/exec";
+      // ✅ Replace with your Google Apps Script Web App URL
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbwr_igzyO_VEVh_f3NuSxzWZ156gDKei3-2IdRR_G5F6M8y5zQRu8xScnRmJXJPeQ3eag/exec";
       const form = document.getElementById("registrationForm");
       const btn = document.getElementById("submitBtn");
       const status = document.getElementById("status");
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
+
+        // Disable button and show progress
         btn.disabled = true;
         btn.innerText = "Processing...";
         status.innerText = "Submitting your details...";
 
-        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+        // Collect form data
+        const formData = new FormData(form);
+
+        fetch(scriptURL, { method: "POST", body: formData })
           .then((response) => {
-            btn.classList.replace("bg-gray-400", "bg-green-600");
-            btn.innerText = "Success!";
-            status.innerText = "Your details have been saved.";
-            form.reset();
-            setTimeout(() => {
-              btn.classList.replace("bg-green-600", "bg-gray-400");
-              btn.innerText = "Register Now";
-              btn.disabled = false;
-              status.innerText = "";
-            }, 3000);
+            if (response.ok) {
+              // Redirect to thank-you page after successful submission
+              window.location.href = "thankyou.html";
+            } else {
+              throw new Error("Submission failed");
+            }
           })
           .catch((error) => {
-            status.innerText = "Error: Check your script URL.";
+            console.error("Error!", error.message);
+            status.innerText =
+              "Error: Please check your connection or script URL.";
             btn.disabled = false;
-            btn.innerText = "Register Now";
+            btn.innerText = "Submit Registration";
           });
       });
     </script>
